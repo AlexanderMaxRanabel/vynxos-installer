@@ -28,7 +28,13 @@ fn main() {
 
         match installer_choice {
             "install" => {
+               /*let url = "https://raw.githubusercontent.com/AlexanderMaxRanabel/VynxOS-config/main/configuration.nix";
 
+               let response = isahc::get(url).unwrap();
+               let body = response.text().unwrap();
+
+               println!("{}", body); */
+               //TODO: Find an actually easy to use HTTP request library
             },
 
             "migrate" => {
