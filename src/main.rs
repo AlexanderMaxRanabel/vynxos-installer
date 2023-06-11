@@ -31,7 +31,18 @@ fn main() {
         match installer_choice {
             "install" => {
                 println!("Warning: Please be sure you are using NixOS 23.05 during installion of VynxOS");
-               let config = r#"# Edit this configuration file to define what should be installed on
+
+                println!("Please Choose a hostname: ");
+                let mut hostname = String::new();
+                io::stdin().read_line(&mut hostname).expect("Error failed to read string");
+                let hostname = hostname.trim();
+
+                println!("Please Choose an username: ");
+                let mut username = String::new();
+                io::stdin().read_line(&mut username).expect("Error failed to read string");
+                let username = username.trim();
+
+               let mut config = String::from(r#"# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -116,7 +127,7 @@ fn main() {
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.vynxos = {
+  users.users.uservynxos = {
     isNormalUser = true;
     description = "vynxos";
     extraGroups = [ "networkmanager" "wheel" ];
@@ -195,8 +206,13 @@ fn main() {
   system.stateVersion = "23.05"; # Did you read the comment?
 
 }
-"#;
+"#);
+            let user_target = "uservynxos";
+            let host_target = "vynxos";
             let config_path = "/etc/nixos/configuration.nix";
+
+            let replaced_config = config.replace(user_target, username);
+            config = replaced_config.replace(host_target, hostname);
 
             let mut file = File::create(config_path).expect("Err");
 
