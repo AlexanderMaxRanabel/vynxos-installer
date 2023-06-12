@@ -42,6 +42,11 @@ fn main() {
                 io::stdin().read_line(&mut username).expect("Error failed to read string");
                 let username = username.trim();
 
+                println!("Please enter your timezone in tz database format. e.g America/New_York");
+                let mut timezone = String::new();
+                io::stdin().read_line(&mut timezone).expect("Error failed to read string");
+                let timezone = timezone.trim();
+
                let mut config = String::from(r#"# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -209,10 +214,12 @@ fn main() {
 "#);
             let user_target = "uservynxos";
             let host_target = "vynxos";
+            let location_target = "Europe/Istanbul";
             let config_path = "/etc/nixos/configuration.nix";
 
-            let replaced_config = config.replace(user_target, username);
-            config = replaced_config.replace(host_target, hostname);
+            let replaced_config_1 = config.replace(user_target, username);
+            let replaced_config_2 = replaced_config_1.replace(host_target, hostname);
+            config = replaced_config_2.replace(location_target, timezone);
 
             let mut file = File::create(config_path).expect("Err");
 
