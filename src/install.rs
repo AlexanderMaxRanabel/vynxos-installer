@@ -23,6 +23,11 @@ pub fn install() {
             io::stdin().read_line(&mut timezone).expect("Error failed to read string");
             let timezone = timezone.trim();
 
+            println!("Please enter the keyboard layout code. e.g us or trq");
+            let mut keycode = String::new();
+            io::stdin().read_line(&mut keycode).expect("Failed to read string");
+            let keycode = keycode.trim();
+
                let mut config = String::from(r#"# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -191,11 +196,13 @@ pub fn install() {
             let user_target = "uservynxos";
             let host_target = "vynxos";
             let location_target = "Europe/Istanbul";
+            let keymap_target = "trq";
             let config_path = "/etc/nixos/configuration.nix";
-
+            
             let replaced_config_1 = config.replace(user_target, username);
             let replaced_config_2 = replaced_config_1.replace(host_target, hostname);
-            config = replaced_config_2.replace(location_target, timezone);
+            let replaced_config_3 = replaced_config_2.replace(location_target, timezone);
+            config = replaced_config_3.replace(keymap_target, keycode);
 
             let mut file = File::create(config_path).expect("Err");
 
