@@ -3,10 +3,10 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::io;
 use std::io::prelude::*;
-use std::process;
 
 pub fn install() {
             println!("Warning: Please be sure you are using NixOS 23.05 during installion of VynxOS");
+            println!("PLEASE MAKE A BACKUP OF OLD configuration.nix INCASE SOMETHıNG GOES WRONG");
 
             println!("Please Choose a hostname: ");
             let mut hostname = String::new();
@@ -198,7 +198,19 @@ pub fn install() {
             let replaced_config_2 = replaced_config_1.replace(host_target, hostname);
             let replaced_config_3 = replaced_config_2.replace(location_target, timezone);
             config = replaced_config_3.replace(keymap_target, keycode);
-
+            
+            let delete_old = Command::new("rm")
+                .arg("-rf")
+                .arg("/etc/configuration.nix")
+                .output()
+                .expect("Failed to create file");
+            
+            if  delete_old.status.success() {
+                println!("Deleted old configuration.nix");
+            } else {
+                let stderr = String::from_utf8_lossy(&delete_old.stderr);
+                eprintln!("Failed to execute command. error: {}", stderr);               
+            }
             let mut file = File::create(config_path).expect("Err");
 
             file.write_all(config.trim().as_bytes())
