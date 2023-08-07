@@ -141,7 +141,6 @@ pub fn install() {
      emacs
      neovim
      vscodium
-     nitch
      hyfetch
      pfetch
      helix
@@ -155,9 +154,6 @@ pub fn install() {
      go
      rustup
      cmake
-     docker-client
-#  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -179,13 +175,8 @@ pub fn install() {
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  # DO NOT CHANGE THIS VALUE WHATSOEVER
+  system.stateVersion = "23.05";
 
 }"#);
             let user_target = "uservynxos";
